@@ -24,6 +24,18 @@ footer{max-width:1100px;margin:12px auto;padding:8px 16px;color:#666}
 	.cards .card{flex-basis:18%}
 }
 
+@media (min-width:1180px){
+	/* 强制每行 4 列 —— 即使页面更宽，卡片仍按 4 列排列（便于两行显示八个卡片） */
+	.cards{ /* 保持容器撑满，但卡片宽度受限为四列 */ }
+	.cards .card{
+		flex: 0 0 calc((100% - 3 * 12px) / 4);
+		max-width: calc((100% - 3 * 12px) / 4);
+		min-width: 0; /* 取消原先的 min-width 限制，避免换行 */
+	}
+	/* payload 与 comm 保持与其他卡同宽，确保它们在一行 */
+	.card-payload,.card-comm{flex:0 0 calc((100% - 3 * 12px) / 4);max-width:calc((100% - 3 * 12px) / 4)}
+}
+
 @media (max-width:700px){
 	/* 小屏（手机）：卡片改为单列，从上至下排列 */
 	.cards{flex-direction:column;gap:10px}
