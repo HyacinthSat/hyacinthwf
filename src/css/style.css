@@ -4,11 +4,22 @@ header{background:#0b4f6c;color:#fff;padding:12px 18px}
 header h1{margin:0;font-size:20px}
 main{padding:16px;max-width:1100px;margin:0 auto}
 .cards{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
-.card{background:#fff;border-radius:6px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);flex:1;min-width:160px}
+.cards .card{background:#fff;border-radius:6px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);flex:0 0 20%;min-width:220px;box-sizing:border-box}
+.card-payload,.card-comm{flex:0 0 50%;min-width:320px}
 .card h3{margin:0 0 8px 0;font-size:14px}
 .value{font-size:18px;font-weight:600}
 #telemetry-table{width:100%;border-collapse:collapse;background:#fff}
 #telemetry-table th,#telemetry-table td{padding:8px;border-bottom:1px solid #eee;text-align:left}
-.map-placeholder{height:240px;background:linear-gradient(180deg,#e9eef2,#ffffff);display:flex;align-items:center;justify-content:center;border:1px dashed #cfd8dc;color:#556}
+#map .map-placeholder{height:240px;background:linear-gradient(180deg,#e9eef2,#ffffff);display:flex;align-items:center;justify-content:center;border:1px dashed #cfd8dc;color:#556}
 #event-log{height:140px;overflow:auto;background:#111;color:#0f0;padding:8px;border-radius:4px}
 footer{max-width:1100px;margin:12px auto;padding:8px 16px;color:#666}
+
+@media (max-width:1100px){
+	.cards .card{flex:0 0 48%;min-width:0}
+	.card-payload,.card-comm{flex:0 0 100%}
+}
+
+@media (min-width:1600px){
+	/* 在宽屏上尽量保持第一行 5 个卡片 */
+	.cards .card{flex-basis:18%}
+}
