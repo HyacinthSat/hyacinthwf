@@ -43,3 +43,15 @@ footer{max-width:1100px;margin:12px auto;padding:8px 16px;color:#666}
 	.card-payload,.card-comm{flex:1 1 100%}
 	main{padding:12px}
 }
+
+@media (min-width:701px) and (max-width:1299px){
+	/* 在 701px - 1299px 区间，强制两列布局（四行两列用于八个卡片） */
+	.cards{flex-direction:row;flex-wrap:wrap}
+	.cards .card{
+		flex: 0 0 calc((100% - 1 * 12px) / 2);
+		max-width: calc((100% - 1 * 12px) / 2);
+		min-width: 0;
+		box-sizing: border-box;
+	}
+	.card-payload,.card-comm{flex:0 0 calc((100% - 1 * 12px) / 2);max-width:calc((100% - 1 * 12px) / 2)}
+}
