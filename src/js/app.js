@@ -69,11 +69,28 @@ $(function(){
 
   // 页面切换逻辑：根据顶部导航切换页面内容
   function showPage(name){
+    // hide all pages first
     $('.page').hide().removeClass('active');
+
     if(name === '数据'){
+      // 显示数据页面
       $('#data-page').show().addClass('active');
+
+      // 隐藏可能存在于 overview 的控件，确保仅展示状态卡
+      $('#telemetry, #map, #log, #telemetry-table, #event-log').hide();
+
+      // 只显示 data-page 中的前 8 个 card，隐藏其它（以防未来增减）
+      const cards = $('#data-page .cards .card');
+      cards.each(function(i){
+        if(i < 8) $(this).show(); else $(this).hide();
+      });
+
     }else{
+      // 显示总览页面并确保遥测/轨迹/日志可见
       $('#overview-page').show().addClass('active');
+      $('#telemetry, #map, #log, #telemetry-table, #event-log').show();
+
+      // 在总览中，data-page 的卡片保持隐藏（页面切换会隐藏 .page）
     }
   }
 
