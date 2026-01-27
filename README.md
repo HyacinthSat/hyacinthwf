@@ -1,11 +1,23 @@
-# 仓库名称  
+# HyacinthWF  
 
 本仓库用于实现网站的前端，服务于地面站。  
 
+## git操作注意事项
+
+- 提交的commit格式尽量按照固定格式
+
+例如：
+
+
+style update 002 section card adjustment
+<style/content/feature/...> <update/fix/fetch> <序号> <描述>
+
+
+
 ## 目录结构  
 
-- [文件或目录名](./文件或目录名)：简要说明用途  
-- [文件或目录名](./文件或目录名)：简要说明用途  
+- [index.html](./index.html)：主页面  
+- [poem.txt](./poem.txt)：ZFK闲着没事干用来测试git用的  
 
 > 请根据实际情况增删条目  
 > 建议结构：
