@@ -23,3 +23,11 @@ footer{max-width:1100px;margin:12px auto;padding:8px 16px;color:#666}
 	/* 在宽屏上尽量保持第一行 5 个卡片 */
 	.cards .card{flex-basis:18%}
 }
+
+@media (max-width:700px){
+	/* 小屏（手机）：卡片改为单列，从上至下排列 */
+	.cards{flex-direction:column;gap:10px}
+	.cards .card{flex:1 1 100%;min-width:0;width:100%}
+	.card-payload,.card-comm{flex:1 1 100%}
+	main{padding:12px}
+}
