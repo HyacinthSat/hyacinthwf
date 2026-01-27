@@ -9,16 +9,119 @@
 </head>
 <body>
   <header>
-    <h1>Hyacinth 卫星地面站</h1>
-    <p>实时展示卫星遥测与状态</p>
+    <h1>Hyacinth SAT Monitor</h1>
   </header>
 
   <main>
     <section id="status-cards" class="cards">
-      <div class="card" id="card-position"><h3>位置</h3><div class="value" id="pos-value">--</div></div>
-      <div class="card" id="card-velocity"><h3>速度</h3><div class="value" id="vel-value">--</div></div>
-      <div class="card" id="card-power"><h3>电源</h3><div class="value" id="pwr-value">--</div></div>
-      <div class="card" id="card-temp"><h3>温度</h3><div class="value" id="temp-value">--</div></div>
+
+      <div class="card">
+        <h3> 姿态与轨道</h3>
+        <table>
+          <tr><td>滚动角（Roll）</td><td class="value">--</td></tr>
+          <tr><td>俯仰角（Pitch）</td><td class="value">--</td></tr>
+          <tr><td>偏航角（Yaw）</td><td class="value">--</td></tr>
+          <tr><td>角速度（三轴）</td><td class="value">--</td></tr>
+          <tr><td>位置矢量</td><td class="value">--</td></tr>
+          <tr><td>速度矢量</td><td class="value">--</td></tr>
+          <tr><td>轨道六根数</td><td class="value">--</td></tr>
+          <tr><td>指向精度 / 姿态稳定度</td><td class="value">--</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>电源系统</h3>
+        <table>
+          <tr><td>电池电压</td><td class="value">--</td></tr>
+          <tr><td>电池电流</td><td class="value">--</td></tr>
+          <tr><td>电池温度</td><td class="value">--</td></tr>
+          <tr><td>充放电状态 / SOC</td><td class="value">--</td></tr>
+          <tr><td>电池健康（SOH）</td><td class="value">--</td></tr>
+          <tr><td>太阳能电池板输出功率</td><td class="value">--</td></tr>
+          <tr><td>光伏电压/电流</td><td class="value">--</td></tr>
+          <tr><td>太阳板展开状态 / 对日角度</td><td class="value">--</td></tr>
+          <tr><td>太阳板温度</td><td class="value">--</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>热控系统</h3>
+        <table>
+          <tr><td>仪器舱温度</td><td class="value">--</td></tr>
+          <tr><td>推进剂温度</td><td class="value">--</td></tr>
+          <tr><td>电子设备温度</td><td class="value">--</td></tr>
+          <tr><td>外表面温度</td><td class="value">--</td></tr>
+          <tr><td>加热器状态 / 功耗</td><td class="value">--</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>推进系统</h3>
+        <table>
+          <tr><td>推进剂剩余量</td><td class="value">--</td></tr>
+          <tr><td>推进剂压力</td><td class="value">--</td></tr>
+          <tr><td>推进剂温度</td><td class="value">--</td></tr>
+          <tr><td>推力器工作次数</td><td class="value">--</td></tr>
+          <tr><td>累计点火时间</td><td class="value">--</td></tr>
+          <tr><td>储箱压力 / 管路压力</td><td class="value">--</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>通信系统</h3>
+        <table>
+          <tr><td>发射机/接收机功率</td><td class="value">--</td></tr>
+          <tr><td>发射机/接收机温度</td><td class="value">--</td></tr>
+          <tr><td>信噪比（SNR）</td><td class="value">--</td></tr>
+          <tr><td>误码率（BER）</td><td class="value">--</td></tr>
+          <tr><td>信号强度</td><td class="value">--</td></tr>
+          <tr><td>天线指向角度 / 展开状态</td><td class="value">--</td></tr>
+        </table>
+      </div>
+
+      <div class="card" style="flex:1 1 100%">
+        <h3>载荷分系统</h3>
+        <table>
+          <tr><td>成像系统 - 相机温度</td><td class="value">--</td></tr>
+          <tr><td>成像系统 - 焦平面温度</td><td class="value">--</td></tr>
+          <tr><td>成像系统 - 快门/滤光片状态</td><td class="value">--</td></tr>
+          <tr><td>CCD/CMOS 工作参数</td><td class="value">--</td></tr>
+          <tr><td>数据记录 - 存储容量</td><td class="value">--</td></tr>
+          <tr><td>数据记录 - 读写速率 / 错误率</td><td class="value">--</td></tr>
+          <tr><td>通信载荷 - 转发器功率/增益</td><td class="value">--</td></tr>
+          <tr><td>通信载荷 - 波束 EIRP / 覆盖</td><td class="value">--</td></tr>
+          <tr><td>科学载荷 - 传感器原始数据状态</td><td class="value">--</td></tr>
+          <tr><td>科学载荷 - 标定参数 / 校准状态</td><td class="value">--</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>健康管理数据</h3>
+        <table>
+          <tr><td>开关状态（通电/断电）</td><td class="value">--</td></tr>
+          <tr><td>各分系统工作模式</td><td class="value">--</td></tr>
+          <tr><td>错误计数 / 异常次数</td><td class="value">--</td></tr>
+          <tr><td>SEU 计数 / SEL 状态</td><td class="value">--</td></tr>
+          <tr><td>累积辐射剂量</td><td class="value">--</td></tr>
+          <tr><td>高能粒子通量</td><td class="value">--</td></tr>
+          <tr><td>展开机构状态（太阳板/天线）</td><td class="value">--</td></tr>
+          <tr><td>动量轮/陀螺转速 / 振动</td><td class="value">--</td></tr>
+          <tr><td>星敏感器识别状态</td><td class="value">--</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>工程数据</h3>
+        <table>
+          <tr><td>星上时间</td><td class="value">--</td></tr>
+          <tr><td>关键事件时间戳</td><td class="value">--</td></tr>
+          <tr><td>GPS - 位置/速度/时间</td><td class="value">--</td></tr>
+          <tr><td>星敏感器参考数据</td><td class="value">--</td></tr>
+          <tr><td>存储器使用</td><td class="value">--</td></tr>
+          <tr><td>处理器负载（CPU/内存）</td><td class="value">--</td></tr>
+          <tr><td>总线负载 / 错误计数</td><td class="value">--</td></tr>
+        </table>
+      </div>
     </section>
 
     <section id="telemetry">
