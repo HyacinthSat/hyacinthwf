@@ -1,0 +1,29 @@
+# 通用
+.DS_Store
+Thumbs.db
+
+# 构建产物
+/build
+/dist
+*.o
+*.out
+*.exe
+
+# 文档临时文件
+*.bak
+*.swp
+~$*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# LaTeX / Markdown 编译
+*.aux
+*.log
+*.toc
+
+# VSCode / JetBrains 等编辑器配置
+.vscode/
+.idea/
