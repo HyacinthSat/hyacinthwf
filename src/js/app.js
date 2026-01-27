@@ -65,4 +65,28 @@ $(function(){
   }, 3000);
   */
 
+  
+
+  // 页面切换逻辑：根据顶部导航切换页面内容
+  function showPage(name){
+    $('.page').hide().removeClass('active');
+    if(name === '数据'){
+      $('#data-page').show().addClass('active');
+    }else{
+      $('#overview-page').show().addClass('active');
+    }
+  }
+
+  // 初始化：显示总览并设置第一个导航为激活
+  showPage('总览');
+  $('.top-nav li').removeClass('active');
+  $('.top-nav li').filter(function(){ return $(this).text().trim() === '总览'; }).addClass('active');
+
+  $('.top-nav li').on('click', function(){
+    const text = $(this).text().trim();
+    $('.top-nav li').removeClass('active');
+    $(this).addClass('active');
+    showPage(text);
+  });
+
 });

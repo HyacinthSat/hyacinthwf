@@ -13,6 +13,11 @@ header h1{margin:0;font-size:20px}
 	.top-nav ul{flex-direction:column;align-items:stretch;gap:8px}
 	.top-nav li{width:100%;text-align:center;padding:10px}
 }
+
+/* 页面切换：隐藏/显示 page */
+.page{display:none}
+.page.active{display:block}
+.top-nav li.active{background:rgba(255,255,255,0.12)}
 main{padding:16px;max-width:1800px;margin:0 auto}
 .cards{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
 .cards .card{background:#fff;border-radius:6px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);flex:1 1 18%;min-width:220px;box-sizing:border-box}
