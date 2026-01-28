@@ -85,12 +85,25 @@ $(function(){
         if(i < 8) $(this).show(); else $(this).hide();
       });
 
-    }else{
+    }else if(name === '总览'){
       // 显示总览页面并确保遥测/轨迹/日志可见
       $('#overview-page').show().addClass('active');
       $('#telemetry, #map, #log, #telemetry-table, #event-log').show();
 
-      // 在总览中，data-page 的卡片保持隐藏（页面切换会隐藏 .page）
+    }else if(name === '解码'){
+      // 显示解码占位页面（暂无内容），隐藏其他工具控件
+      $('#decode-page').show().addClass('active');
+      $('#telemetry, #map, #log, #telemetry-table, #event-log').hide();
+
+    }else if(name === '关于'){
+      // 显示关于占位页面（暂无内容），隐藏其他工具控件
+      $('#about-page').show().addClass('active');
+      $('#telemetry, #map, #log, #telemetry-table, #event-log').hide();
+
+    }else{
+      // 兜底显示总览
+      $('#overview-page').show().addClass('active');
+      $('#telemetry, #map, #log, #telemetry-table, #event-log').show();
     }
   }
 
