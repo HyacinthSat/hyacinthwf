@@ -128,13 +128,34 @@ main {
 }
 
 #map .map-placeholder {
-	height: 240px;
+	height: 400px;
 	background: linear-gradient(180deg, #e9eef2, #ffffff);
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border: 1px dashed #cfd8dc;
 	color: #556
+}
+
+#attitude .attitude-placeholder {
+	height: 400px;
+	background: linear-gradient(180deg, #f0f4f8, #ffffff);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px dashed #b0bec5;
+	color: #556
+}
+
+.visual-row {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 18px
+}
+
+.visual-row > section {
+	flex: 1;
+	min-width: 0
 }
 
 #event-log {
@@ -236,4 +257,26 @@ footer {
 		flex: 0 0 calc((100% - 1 * 12px) / 2);
 		max-width: calc((100% - 1 * 12px) / 2)
 	}
+}
+
+/* 并排可视化区域（地图与姿态仪） */
+.visual-row {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 18px
+}
+
+.visual-row > section {
+	flex: 1;
+	min-width: 0
+}
+
+#attitude .attitude-placeholder {
+	height: 400px;
+	background: linear-gradient(180deg, #f0f4f8, #ffffff);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px dashed #b0bec5;
+	color: #556
 }
