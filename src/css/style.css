@@ -150,12 +150,24 @@ main {
 .visual-row {
 	display: flex;
 	gap: 12px;
-	margin-bottom: 18px
+	margin-bottom: 18px;
+	align-items: stretch;
 }
 
-.visual-row > section {
-	flex: 1;
-	min-width: 0
+/* 固定姿态仪宽度为 400px，地图占据剩余空间 */
+#attitude { flex: 0 0 400px; }
+#attitude .attitude-placeholder { width: 100%; }
+#map { flex: 1 1 auto; min-width: 0; }
+
+/* 默认：避免 visual-row > section 使用等分 */
+.visual-row > section { min-width: 0 }
+
+/* 窄屏回退：堆叠并使两个区域宽度100% */
+@media (max-width:700px) {
+  .visual-row { flex-direction: column; }
+  #attitude { flex: 1 1 100%; }
+  #map { flex: 1 1 100%; }
+  #attitude .attitude-placeholder, #map .map-placeholder { height: 240px }
 }
 
 #event-log {
