@@ -1,17 +1,24 @@
 
 const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext(`2d`);
+const ctx = canvas.getContext('2d');
 
 const compassCanvas = document.getElementById('compass');
 const compassCtx = compassCanvas.getContext('2d');
 
-let w = canvas.width;
-let h = canvas.height;
+const overlayCanvas = document.getElementById('overlay');
+const overlayCtx = overlayCanvas.getContext('2d');
+
+// Desired CSS size (px)
+const CSS_SIZE = 400;
+let dpr = window.devicePixelRatio || 1;
+let cssW = CSS_SIZE;
+let cssH = CSS_SIZE;
 
 let currentPitch = 0;
 let currentRoll = 0;
 let currentYaw = 0;
 
+// Base visual config (interpreted for a 700px design). We'll scale to CSS_SIZE.
 let config = {
     lineWidth: 3,
     rollScaleWidth: 100,
@@ -23,21 +30,50 @@ let config = {
     pitchMaxRange: 180,
     pitchStep: 20,
     stringHeightCenterCorrection: 3,
-}
+    baseCanvas: 700
+};
 
+let scaled = {};
 let flyBySelf = false;
 
-ctx.translate(w/2, h/2);
-compassCtx.translate(w/2, h/2);
+function initSizes() {
+    dpr = window.devicePixelRatio || 1;
+    cssW = CSS_SIZE;
+    cssH = CSS_SIZE;
 
-ctx.font = "10px OCR";
-ctx.fillStyle = config.strokeStyle;
+    [canvas, compassCanvas, overlayCanvas].forEach(c => {
+        c.style.width = cssW + 'px';
+        c.style.height = cssH + 'px';
+        c.width = Math.round(cssW * dpr);
+        c.height = Math.round(cssH * dpr);
+    });
 
-compassCtx.font = "20px Consolas";
-compassCtx.fillStyle = config.strokeStyle;
-compassCtx.strokeStyle = config.strokeStyle;
-compassCtx.textAlign = "center";
-compassCtx.textBaseline = "middle";
+    // compute scale relative to original 700 design
+    const scale = cssW / config.baseCanvas;
+
+    scaled.lineWidth = Math.max(1, config.lineWidth * scale);
+    scaled.rollScaleWidth = config.rollScaleWidth * scale;
+    scaled.tailSize = config.tailSize * scale;
+    scaled.pitchPadding = config.pitchPadding * scale;
+    scaled.pitchLine = config.pitchLine * scale;
+    scaled.pitchTextPadding = config.pitchTextPadding * scale;
+    scaled.stringHeightCenterCorrection = config.stringHeightCenterCorrection * scale;
+    scaled.compassR = 250 * scale;
+    scaled.tickLenShort = 10 * scale;
+    scaled.tickLenLong = 20 * scale;
+
+    // fonts (use CSS px sizes)
+    ctx.font = Math.max(9, 10 * scale) + 'px sans-serif';
+    ctx.fillStyle = config.strokeStyle;
+    compassCtx.font = Math.max(12, 20 * scale) + 'px monospace';
+    compassCtx.fillStyle = config.strokeStyle;
+    compassCtx.strokeStyle = config.strokeStyle;
+    compassCtx.textAlign = 'center';
+    compassCtx.textBaseline = 'middle';
+
+    overlayCtx.strokeStyle = config.strokeStyle;
+    overlayCtx.lineWidth = Math.max(1, 2 * scale);
+}
 
 function drawAll(roll, pitch, yaw) {
     draw(roll, pitch);
@@ -45,11 +81,14 @@ function drawAll(roll, pitch, yaw) {
 }
 
 function draw(roll, pitch) {
-    clearCtx();
+    ctx.save();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.translate(cssW / 2, cssH / 2);
+    ctx.clearRect(-cssW / 2, -cssH / 2, cssW, cssH);
     drawPitch(pitch);
     drawRollLine(roll);
-    // ctx.fillRect(-350,0,700,1);
-} 
+    ctx.restore();
+}
 
 function clearCtx() {
     ctx.rotate(Math.PI * (-currentRoll)/180);
@@ -128,60 +167,45 @@ function drawRollLine(roll) {
 }
 
 function drawCompass(yaw) {
-    // Reset previous rotation
-    compassCtx.rotate(Math.PI * (currentYaw)/180);
-    compassCtx.clearRect(-w/2, -h/2, w, h);
+    compassCtx.save();
+    compassCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    compassCtx.translate(cssW / 2, cssH / 2);
+    compassCtx.clearRect(-cssW / 2, -cssH / 2, cssW, cssH);
 
-    // Draw Yaw text (fixed at top center)
     compassCtx.fillStyle = config.strokeStyle;
-    compassCtx.fillText(yaw, 0, -270);
+    compassCtx.fillText(String(yaw), 0, -cssH / 2 + 30);
 
-    // Rotate to current Yaw (negative because compass card moves opposite to turn)
-    compassCtx.rotate(Math.PI * (-yaw)/180);
-    
-    // Config values
-    const r = 250;
-    const tickLenShort = 10;
-    const tickLenLong = 20;
+    compassCtx.save();
+    compassCtx.rotate((-yaw) * Math.PI / 180);
+
+    const r = scaled.compassR;
+    const tickLenShort = scaled.tickLenShort;
+    const tickLenLong = scaled.tickLenLong;
 
     compassCtx.strokeStyle = config.strokeStyle;
-    compassCtx.lineWidth = 2; // Slightly thinner for compass
-    
-    // Draw Circle
+    compassCtx.lineWidth = Math.max(1, scaled.lineWidth - 1);
+
     compassCtx.beginPath();
     compassCtx.arc(0, 0, r, 0, Math.PI * 2);
     compassCtx.stroke();
 
-    // Draw Ticks and Labels
     for (let i = 0; i < 360; i += 15) {
         compassCtx.save();
-        // Rotate to the tick position
-        // Subtract 90 degrees because 0 degrees on canvas is right (3 o'clock), 
-        // but we want 0 degrees (North) to be up (12 o'clock).
         compassCtx.rotate((i - 90) * Math.PI / 180);
-        
         compassCtx.beginPath();
         if (i % 90 === 0) {
-            // Long tick
             compassCtx.moveTo(r, 0);
             compassCtx.lineTo(r - tickLenLong, 0);
             compassCtx.stroke();
-            
-            // Label
-            compassCtx.translate(r - tickLenLong - 35, 0); 
-            // Rotate text to be tangent to the circle (readable when at top)
+            compassCtx.translate(r - tickLenLong - 35 * (cssW / config.baseCanvas), 0);
             compassCtx.rotate(Math.PI / 2);
-            
-            let label = "";
-            if (i === 0) label = "N";
-            else if (i === 90) label = "E";
-            else if (i === 180) label = "S";
-            else if (i === 270) label = "W";
-            
+            let label = '';
+            if (i === 0) label = 'N';
+            else if (i === 90) label = 'E';
+            else if (i === 180) label = 'S';
+            else if (i === 270) label = 'W';
             compassCtx.fillText(label, 0, 0);
-
         } else {
-            // Short tick
             compassCtx.moveTo(r, 0);
             compassCtx.lineTo(r - tickLenShort, 0);
             compassCtx.stroke();
@@ -189,6 +213,7 @@ function drawCompass(yaw) {
         compassCtx.restore();
     }
 
+    compassCtx.restore();
     currentYaw = yaw;
 }
 
@@ -250,30 +275,35 @@ function tick() {
 document.addEventListener('keydown', handleKeyDown);
 
 // Draw overlay reference lines
-const overlayCanvas = document.getElementById('overlay');
+// initialize sizes and draw
+initSizes();
 drawAll(0, 0, 0);
 
-const overlayCtx = overlayCanvas.getContext('2d');
-const overlayW = overlayCanvas.width;
-const overlayH = overlayCanvas.height;
+function drawOverlay() {
+    overlayCtx.save();
+    overlayCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    overlayCtx.clearRect(0, 0, cssW, cssH);
+    overlayCtx.translate(cssW / 2, cssH / 2);
 
-overlayCtx.strokeStyle = "#17ff06"; // Green for high visibility
-overlayCtx.lineWidth = 2;
+    overlayCtx.strokeStyle = config.strokeStyle;
+    overlayCtx.lineWidth = Math.max(1, 2 * (cssW / config.baseCanvas));
 
-// Draw center crosshair
-overlayCtx.beginPath();
+    const lineLength = 200 * (cssW / config.baseCanvas);
+    const halfLen = lineLength / 2;
 
-const lineLength = 200;
-const halfLen = lineLength / 2;
-const centerX = overlayW / 2;
-const centerY = overlayH / 2;
+    overlayCtx.beginPath();
+    overlayCtx.moveTo(-halfLen, 0);
+    overlayCtx.lineTo(halfLen, 0);
+    overlayCtx.moveTo(0, -halfLen);
+    overlayCtx.lineTo(0, halfLen);
+    overlayCtx.stroke();
+    overlayCtx.restore();
+}
 
-// Horizontal line
-overlayCtx.moveTo(centerX - halfLen, centerY);
-overlayCtx.lineTo(centerX + halfLen, centerY);
+drawOverlay();
 
-// Vertical line
-overlayCtx.moveTo(centerX, centerY - halfLen);
-overlayCtx.lineTo(centerX, centerY + halfLen);
-
-overlayCtx.stroke();
+window.addEventListener('resize', () => {
+    initSizes();
+    drawAll(currentRoll, currentPitch, currentYaw);
+    drawOverlay();
+});
