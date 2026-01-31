@@ -1,4 +1,4 @@
-# HyacinthWF  
+# Hyacinth Web Front-end site
 
 本仓库用于实现网站的前端，服务于地面站。  
 
@@ -8,12 +8,14 @@
 
 例如：
 
-
 style update 002 section card adjustment
 
 <style/content/feature/...> <update/fix/fetch> <序号> <描述>
 
+## 特别说明
 
+Thanks Altitude indicator from @LikSaint/altitudeindicator. Sorry for copy because you have no lincense.
+I add a yaw indicator to it.
 
 ## 目录结构  
 
@@ -29,16 +31,16 @@ style update 002 section card adjustment
 > ├── .gitignore       -------- Git 忽略规则  
 > ├── docs/            -------- 文档与设计说明  
 > ├── src/             -------- 如有代码/脚本，可放于此  
-> ├── specs/           -------- 协议规范、接口定义等  
-> ├── data/            -------- 示例数据、测试数据、参数日志等  
-> └── tools/           -------- 自用脚本、调试工具等（如适用）  
+> ├── specs/           -------- UNUSE 协议规范、接口定义等  
+> ├── data/            -------- UNUSE 示例数据、测试数据、参数日志等  
+> └── tools/           -------- UNUSE自用脚本、调试工具等（如适用）  
 > ```
 
 ## 功能（可选）  
 
 本模块具备以下核心功能：  
 
-- **功能点 1**：具体功能说明  
+- **姿态仪**：调用函数drawAll(roll,pitch,yaw)进行更新，用箭头按键和PageUp/PageDn调试  
 - **功能点 2**：具体功能说明  
 - **功能点 3**：具体功能说明  
 
@@ -57,8 +59,6 @@ style update 002 section card adjustment
 - 与后端的对接
 - 美化与CV版本的改造
 - 后续功能添加  
-
-> 可用于记录开发计划、后续扩展等  
 
 ## 许可证  
 
